@@ -26,7 +26,7 @@ def load_data():
     else:
         print("正在处理数据。。。")
         # 预处理
-        data = pd.read_csv('data.csv', encoding="utf-8", header=None)
+        data = pd.read_csv('datasets1.csv', encoding="utf-8", header=None, nrows=6001)
         data.columns = ['n_id', 'id', 'content', 'label']
         data = data.drop(index=[0])
 
@@ -70,7 +70,7 @@ def load_data():
         data['tokens'] = word_list
         # 划分数据集和测试集
         X_train, X_test, y_train, y_test = \
-            train_test_split(data['tokens'], data['label'], test_size=0.2, random_state=1)
+            train_test_split(data['tokens'], data['label'],stratify=data['label'], test_size=0.2, random_state=1)
         datasets = [X_train, X_test, y_train, y_test]
         # 持久化数据集
         with open(data_path, 'wb') as in_data:

@@ -40,7 +40,9 @@ def tfidf(X_train,X_test,y_train,y_test):
     X_train_tfidf, tfidf_vectorizer = tfidf(X_train)
     X_test_tfidf = tfidf_vectorizer.transform(X_test)
 
-    print(X_train)
+    # print(X_train)
+    # print(X_train_tfidf)
+    # print(tfidf_vectorizer)
     tfidf_path = 'tfidf.pkl'
     if os.path.exists(tfidf_path):
         print("正在加载已经训练的模型...")
