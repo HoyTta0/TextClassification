@@ -6,36 +6,45 @@ Created on 2019/11/5 2:33 PM
 @author: HOY
 """
 import pandas as pd
-import jieba
-from sklearn.model_selection import train_test_split
+import re
 import pickle
-# data = pd.read_csv('data.csv', encoding="utf-8", header=None,nrows=10)
-# data.columns = ['n_id', 'id', 'content', 'label']
-# lines = open('stopwords-master/百度停用词表.txt', 'r', encoding='utf-8')
-# data=data.drop(index=[0])
-# stop_words = [line.strip() for line in lines]
-# word_list = []
-# words_list = []
-# for sent in data['content']:
-#     try:
-#         words = jieba.cut(sent)
-#         words = [word for word in words if word not in stop_words]
-#         segmented_words = ','.join(words)
-#     except AttributeError:
-#         continue
-#     finally:
-#         words_list.append(words)
-#         word_list.append(segmented_words.strip())
-# data['tokens'] = word_list
-#
-# X_train, X_test, y_train, y_test = \
-#     train_test_split(data['tokens'], data['label'], test_size=0.2, random_state=1)
-# datasets = [X_train, X_test, y_train, y_test]
-# print(datasets)
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-data_path = "datasets.pkl"
-with open(data_path, 'rb') as out_data:
-    # 按保存变量的顺序加载变量
-    datasets = pickle.load(out_data)
-    data = pickle.load(out_data)
-print(datasets)
+comp = re.compile('[^\u4e00-\u9fa5]')
+data = pd.read_csv('non_labeled_datasets.csv',usecols=['id','title'], encoding = 'gbk')
+# data = data.dropna()
+# re_data = []
+# for i in data['title']:
+#     i_re = comp.sub('', i)
+#     re_data.append(i_re.strip())
+# data['title'] = re_data
+data = data.dropna(how='any')
+data.to_csv('datasets.csv',encoding="utf_8_sig")
+
+# data = pd.read_csv('datasets1.csv', encoding='utf-8')
+# labels_list = []
+# train_path = "train.pkl"
+# with open(train_path, 'rb') as out_data:
+#     # 按保存变量的顺序加载变量
+#     X_train = pickle.load(out_data)
+# tfidf_vectorizer = TfidfVectorizer()
+# train = tfidf_vectorizer.fit_transform(X_train)
+# # text_test = tfidf_vectorizer.transform(text)
+# tfidf_path = 'tfidf.pkl'
+# with open(tfidf_path, 'rb') as out_data:
+#     clf_tfidf = pickle.load(out_data)
+#
+# for sent in data['title']:
+#         text_test = tfidf_vectorizer.transform([sent])
+#         label=clf_tfidf.predict(text_test)
+#         labels_list.append(label)
+# data['label']=labels_list
+# data.to_csv('datasets1.csv',encoding="utf_8_sig")
+# print(data)
+
+# data_path = "datasets.pkl"
+# with open(data_path, 'rb') as out_data:
+#     # 按保存变量的顺序加载变量
+#     datasets = pickle.load(out_data)
+#     data = pickle.load(out_data)
+# print(datasets)
